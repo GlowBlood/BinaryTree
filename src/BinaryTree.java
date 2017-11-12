@@ -68,43 +68,6 @@ public class BinaryTree<T extends Comparable<T>> extends AbstractSet<T> implemen
         }
     }
 
-    //Добавление уже существующего Node:
-    private boolean addNode(Node<T> node) {
-        Node<T> closest = find(node.value);
-        int comparison = closest == null ? -1 : node.value.compareTo(closest.value);
-        if (comparison == 0) {
-            return false;
-        }
-        if (closest == null) {
-            root = node;
-        } else if (comparison < 0) {
-            assert closest.left == null;
-            closest.left = node;
-        } else {
-            assert closest.right == null;
-            closest.right = node;
-        }
-        size++;
-        return true;
-    }
-
-    //Присединить ветки к дереву:
-    private void joinBranchesOfRemovingObject(Node<T> removable){
-        if (removable.left != null){
-            this.addNode(removable.left);
-        }
-        if (removable.right != null){
-            this.addNode(removable.right);
-        }
-        size--;
-    }
-
-    private boolean checkInvariant(Node<T> node) {
-        Node<T> left = node.left;
-        if (left != null && (left.value.compareTo(node.value) >= 0 || !checkInvariant(left))) return false;
-        Node<T> right = node.right;
-        return right == null || right.value.compareTo(node.value) > 0 && checkInvariant(right);
-    }
     @Override
     public boolean remove(Object o) {
         //решение в лоб, с затратой кучи памяти
